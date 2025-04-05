@@ -12,7 +12,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 // Add custom services
-builder.Services.AddScoped<TestService>();
+builder.Services.AddScoped<ClientService>();
 
 // Add CORS policy
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";

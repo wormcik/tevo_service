@@ -14,7 +14,7 @@ namespace tevo_service.Entities
             this.configuration = configuration;
         }
 
-        public DbSet<Test> Test { get; set; }
+        public DbSet<Client> Client { get; set; }
 
 
 

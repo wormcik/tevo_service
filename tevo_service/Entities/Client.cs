@@ -11,16 +11,23 @@ namespace tevo_service.Entities
         public long ClientId { get; set; }
 
         [Column(TypeName = "VARCHAR(200)")]
-        public string ClientName { get; set; }
+        public string? ClientName { get; set; }
 
         [Column(TypeName = "VARCHAR(200)")]
-        public string ClientSurname { get; set; }
+        public string? ClientSurname { get; set; }
 
         [Column(TypeName = "VARCHAR(20)")]
-        public string ClientTelNo { get; set; }
+        public string? ClientTelNo { get; set; }
 
         [Column(TypeName = "VARCHAR(1000)")]
         public string ClientAdres { get; set; }
+        [Column(TypeName = "VARCHAR(100)")]
+        public string? ClientRequestMilk { get; set; }
 
+        [Column(TypeName = "VARCHAR(100)")]
+        public string? ClientDeliverMilk { get; set; }
+
+        [Column(TypeName = "VARCHAR(100)")]
+        public string? ClientPrice { get; set; }
     }
 }

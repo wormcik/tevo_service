@@ -48,9 +48,30 @@ namespace tevo_service.Services
             existing.ClientTelNo = client.ClientTelNo;
             existing.ClientSurname = client.ClientSurname;
             existing.ClientAdres = client.ClientAdres;
+            existing.ClientRequestMilk = client.ClientRequestMilk;
+            existing.ClientDeliverMilk = client.ClientDeliverMilk;
+            existing.ClientPrice = client.ClientPrice;
             await appDbContext.SaveChangesAsync();
             return existing;
         }
 
+        public async Task<List<Client>> FilterAsync(string? name, string? surname, string? tel, string? adres)
+        {
+            var query = appDbContext.Client.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(name))
+                query = query.Where(c => c.ClientName.ToLower().Contains(name.ToLower()));
+
+            if (!string.IsNullOrWhiteSpace(surname))
+                query = query.Where(c => c.ClientSurname.ToLower().Contains(surname.ToLower()));
+
+            if (!string.IsNullOrWhiteSpace(tel))
+                query = query.Where(c => c.ClientTelNo.Contains(tel));
+
+            if (!string.IsNullOrWhiteSpace(adres))
+                query = query.Where(c => c.ClientAdres.ToLower().Contains(adres.ToLower()));
+
+            return await query.ToListAsync();
+        }
     }
 }

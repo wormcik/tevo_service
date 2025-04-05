@@ -51,5 +51,15 @@ namespace tevo_service.Controllers
             return deleted ? NoContent() : NotFound();
         }
 
+        [HttpGet()]
+        public async Task<IActionResult> Filter(
+            [FromQuery] string? name,
+            [FromQuery] string? surname,
+            [FromQuery] string? tel,
+            [FromQuery] string? adres)
+        {
+            var result = await clientService.FilterAsync(name, surname, tel, adres);
+            return Ok(result);
+        }
     }
 }

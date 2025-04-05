@@ -70,7 +70,7 @@ namespace tevo_service.Services
 
             if (!string.IsNullOrWhiteSpace(adres))
                 query = query.Where(c => c.ClientAdres.ToLower().Contains(adres.ToLower()));
-
+            query = query.OrderBy(c => c.ClientName.ToLower());
             return await query.ToListAsync();
         }
     }

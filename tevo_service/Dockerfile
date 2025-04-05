@@ -8,7 +8,7 @@ WORKDIR /app/tevo_service
 RUN dotnet restore
 
 # 👇 Copy the rest of the project
-COPY tevo_service/. ./  # dot means current dir (tevo_service)
+COPY . ./  # copy everything from current repo root
 RUN dotnet publish -c Release -o out
 
 # Runtime stage

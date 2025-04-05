@@ -23,7 +23,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
             "http://localhost:3000",              // local dev (React)
-            "https://tevoapp.vercel.app"          // deployed frontend (Vercel)
+            "https://tevo-frontend.vercel.app"
         )
         .AllowAnyHeader()
         .AllowAnyMethod();

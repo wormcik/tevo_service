@@ -16,16 +16,20 @@ builder.Services.AddScoped<TestService>();
 
 // Add CORS policy
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:3000") // Your frontend origin
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
+    options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
+    {
+        policy.WithOrigins(
+            "http://localhost:3000",              // local dev (React)
+            "https://tevoapp.vercel.app"          // deployed frontend (Vercel)
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
 });
+
 
 // Add framework services
 builder.Services.AddControllers();

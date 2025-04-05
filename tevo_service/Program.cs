@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using tevo_service.Entities;
 using tevo_service.Services;
@@ -6,29 +5,44 @@ using tevo_service.Services;
 var builder = WebApplication.CreateBuilder(args);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+// Add PostgreSQL + DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     _ = options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+// Add custom services
 builder.Services.AddScoped<TestService>();
 
+// Add CORS policy
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000") // Your frontend origin
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 
-
-
+// Add framework services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Development-only Swagger UI
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-using var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
-using var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
+// Add CORS BEFORE Authorization
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
 

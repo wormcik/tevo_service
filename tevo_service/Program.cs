@@ -38,12 +38,9 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Development-only Swagger UI
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 // Add CORS BEFORE Authorization
 app.UseCors(MyAllowSpecificOrigins);

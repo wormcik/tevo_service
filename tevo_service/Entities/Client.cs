@@ -5,7 +5,6 @@ namespace tevo_service.Entities
 {
     public class Client
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long ClientId { get; set; }

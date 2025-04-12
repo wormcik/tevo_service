@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using tevo_service.Entities;
@@ -11,9 +12,11 @@ using tevo_service.Entities;
 namespace tevo_service.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250410221248_user4")]
+    partial class user4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,17 +122,8 @@ namespace tevo_service.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("DemandId"));
 
-                    b.Property<long?>("AddressInfoId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ContactInfoId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Currency")
                         .HasColumnType("VARCHAR(20)");
-
-                    b.Property<DateTime?>("Date")
-                        .HasColumnType("timestamp");
 
                     b.Property<decimal?>("DeliveredMilk")
                         .HasColumnType("numeric");
@@ -145,9 +139,6 @@ namespace tevo_service.Migrations
 
                     b.Property<Guid>("RecipientUserId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("State")
-                        .HasColumnType("VARCHAR(50)");
 
                     b.HasKey("DemandId");
 

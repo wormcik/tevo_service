@@ -5,16 +5,17 @@ using tevo_service.Services;
 var builder = WebApplication.CreateBuilder(args);
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-// Add PostgreSQL + DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     _ = options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-// Add custom services
 builder.Services.AddScoped<ClientService>();
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<DemandService>();
+builder.Services.AddScoped<ProfileService>();
 
-// Add CORS policy
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddCors(options =>
@@ -31,7 +32,6 @@ builder.Services.AddCors(options =>
 });
 
 
-// Add framework services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -42,7 +42,6 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 
-// Add CORS BEFORE Authorization
 app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();

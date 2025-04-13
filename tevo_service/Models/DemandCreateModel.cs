@@ -8,5 +8,6 @@
         public string Currency { get; set; } = "₺";
         public long ContactInfoId { get; set; }
         public long AddressInfoId { get; set; }
+        public DateTime Date { get; set; }
     }
 }

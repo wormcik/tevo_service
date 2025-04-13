@@ -29,7 +29,7 @@ namespace tevo_service.Services
                     RecipientUserId = model.RecipientUserId,
                     ContactInfoId = model.ContactInfoId,
                     AddressInfoId = model.AddressInfoId,
-                    Date = DateTime.Now
+                    Date = model.Date,
                 };
 
                 await appDbContext.Demand.AddAsync(newDemand);

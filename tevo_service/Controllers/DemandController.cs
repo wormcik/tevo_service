@@ -68,5 +68,12 @@ namespace tevo_service.Controllers
             var result = await demandService.CancelAsync(model.DemandId);
             return Ok(result);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<bool>> AddManually([FromBody] DemandCreateModel model)
+        {
+            var result = await demandService.AddManuallyAsync(model);
+            return Ok(result);
+        }
     }
 }

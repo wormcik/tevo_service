@@ -8,12 +8,13 @@ namespace tevo_service.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long DemandId { get; set; }
-        public decimal? DemandedMilk { get; set; }
-        public decimal? DeliveredMilk { get; set; }
+        public decimal? Demanded { get; set; }
+        public decimal? Delivered { get; set; }
         public decimal? Price { get; set; }
 
         [Column(TypeName = "VARCHAR(20)")]
         public string? Currency { get; set; }
+        public bool? ManuelMi { get; set; }
         public DateTime? Date { get; set; }
 
         [Column(TypeName = "VARCHAR(50)")]
@@ -34,6 +35,10 @@ namespace tevo_service.Entities
 
         [ForeignKey(nameof(AddressInfo))]
         public long? AddressInfoId { get; set; }
+
+
+        [ForeignKey(nameof(Product))]
+        public long? ProductId { get; set; }
 
 
         [ForeignKey(nameof(DelivererUser))]

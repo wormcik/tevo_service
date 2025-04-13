@@ -16,6 +16,7 @@ namespace tevo_service.Entities
         public DbSet<AddressInfo> AddressInfo { get; set; }
         public DbSet<ContactInfo> ContactInfo { get; set; }
         public DbSet<Demand> Demand { get; set; }
+        public DbSet<Product> Product { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

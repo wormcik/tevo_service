@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using tevo_service.Entities;
 using tevo_service.Models;
 using tevo_service.Models.DTOs;
@@ -20,11 +21,13 @@ namespace tevo_service.Services
             {
                 var newDemand = new Demand
                 {
-                    DemandedMilk = model.DemandedMilk,
-                    DeliveredMilk = 0,
+                    Demanded = model.Demanded,
+                    Delivered = 0,
                     Price = 0,
+                    ManuelMi = false,
                     Currency = model.Currency ?? "₺",
                     State = "Talep Oluşturuldu",
+                    ProductId = model.ProductId,
                     DelivererUserId = model.DelivererUserId,
                     RecipientUserId = model.RecipientUserId,
                     ContactInfoId = model.ContactInfoId,
@@ -82,9 +85,10 @@ namespace tevo_service.Services
                 var dtoList = demands.Select(d => new DemandDTO
                 {
                     DemandId = d.DemandId,
-                    DemandedMilk = d.DemandedMilk,
-                    DeliveredMilk = d.DeliveredMilk,
+                    Demanded = d.Demanded,
+                    Delivered = d.Delivered,
                     Price = d.Price,
+                    ProductId = d.ProductId,
                     Currency = d.Currency,
                     State = d.State,
                     DelivererUserName = d.DelivererUser?.UserName,
@@ -164,9 +168,10 @@ namespace tevo_service.Services
                 var dtoList = demands.Select(d => new DemandDTO
                 {
                     DemandId = d.DemandId,
-                    DemandedMilk = d.DemandedMilk,
-                    DeliveredMilk = d.DeliveredMilk,
+                    Demanded = d.Demanded,
+                    Delivered = d.Delivered,
                     Price = d.Price,
+                    ProductId = d.ProductId,
                     Currency = d.Currency,
                     State = d.State,
                     DelivererUserName = d.DelivererUser?.UserName,
@@ -211,8 +216,9 @@ namespace tevo_service.Services
                     .Select(d => new DemandDTO
                     {
                         DemandId = d.DemandId,
-                        DemandedMilk = d.DemandedMilk,
-                        DeliveredMilk = d.DeliveredMilk,
+                        Demanded = d.Demanded,
+                        ProductId = d.ProductId,
+                        Delivered = d.Delivered,
                         Price = d.Price,
                         Currency = d.Currency,
                         State = d.State,
@@ -260,8 +266,8 @@ namespace tevo_service.Services
                 if (model.Price.HasValue)
                     demand.Price = model.Price;
 
-                if (model.DeliveredMilk.HasValue)
-                    demand.DeliveredMilk = model.DeliveredMilk;
+                if (model.Delivered.HasValue)
+                    demand.Delivered = model.Delivered;
 
                 if (!string.IsNullOrWhiteSpace(model.State))
                     demand.State = model.State;
@@ -271,8 +277,8 @@ namespace tevo_service.Services
                 var dto = new DemandDTO
                 {
                     DemandId = demand.DemandId,
-                    DemandedMilk = demand.DemandedMilk,
-                    DeliveredMilk = demand.DeliveredMilk,
+                    Demanded = demand.Demanded,
+                    Delivered = demand.Delivered,
                     Price = demand.Price,
                     Currency = demand.Currency,
                     State = demand.State
@@ -314,6 +320,36 @@ namespace tevo_service.Services
             await appDbContext.SaveChangesAsync();
 
             return new ResultModel<string>().Success("Talep iptal edildi");
+        }
+
+        public async Task<ResultModel<string>> AddManuallyAsync(DemandCreateModel model)
+        {
+            try
+            {
+                var newDemand = new Demand
+                {
+                    Demanded = model.Demanded,
+                    ManuelMi = true,
+                    Delivered = model.Demanded,
+                    DelivererUserId = model.DelivererUserId,
+                    RecipientUserId = model.RecipientUserId,
+                    Currency = model.Currency ?? "₺",
+                    ContactInfoId = model.ContactInfoId,
+                    AddressInfoId = model.AddressInfoId,
+                    ProductId = model.ProductId,
+                    Date = model.Date,
+                    State = "Alıcı Onayladı", // Manuel olduğunda direkt onaylanmış kabul edilir
+                };
+
+                appDbContext.Demand.Add(newDemand);
+                await appDbContext.SaveChangesAsync();
+
+                return new ResultModel<string>().Success("Talep başarıyla eklendi.");
+            }
+            catch (Exception ex)
+            {
+                return new ResultModel<string>().Fail("Talep eklenirken hata oluştu: " + ex.Message);
+            }
         }
 
 

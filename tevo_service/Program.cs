@@ -15,6 +15,7 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<DemandService>();
 builder.Services.AddScoped<ProfileService>();
+builder.Services.AddScoped<ProductService>();
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 

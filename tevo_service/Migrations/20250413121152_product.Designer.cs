@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using tevo_service.Entities;
@@ -11,9 +12,11 @@ using tevo_service.Entities;
 namespace tevo_service.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250413121152_product")]
+    partial class product
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,25 +165,6 @@ namespace tevo_service.Migrations
                     b.HasIndex("RecipientUserId");
 
                     b.ToTable("Demand");
-                });
-
-            modelBuilder.Entity("tevo_service.Entities.Product", b =>
-                {
-                    b.Property<long>("ProductId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("ProductId"));
-
-                    b.Property<string>("ProductName")
-                        .HasColumnType("VARCHAR(200)");
-
-                    b.Property<string>("Unit")
-                        .HasColumnType("VARCHAR(200)");
-
-                    b.HasKey("ProductId");
-
-                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("tevo_service.Entities.User", b =>

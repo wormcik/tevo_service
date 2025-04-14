@@ -27,6 +27,13 @@ namespace tevo_service.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<UserDTO>> GetAllBuyer()
+        {
+            var result = await userService.GetAllBuyerAsync();
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<ActionResult<bool>> Ban([FromBody] BanModel model)
         {

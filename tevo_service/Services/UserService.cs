@@ -27,6 +27,36 @@ namespace tevo_service.Services
                 .ToListAsync();
         }
 
+        public async Task<List<UserBuyerDTO>> GetAllBuyerAsync()
+        {
+            return await appDbContext.User
+                .Include(q => q.AddressInfoList)
+                .Include(q => q.ContactInfoList)
+                .Where(u => u.IsBanned == null || u.IsBanned == false)
+                .Select(u => new UserBuyerDTO
+                {
+                    UserId = u.UserId,
+                    UserName = u.UserName,
+                    Role = u.Role,
+                    ContactInfoList = u.ContactInfoList.Select(ci => new ContactInfoDTO
+                    {
+                        ContactInfoId = ci.ContactInfoId,
+                        Type = ci.Type,
+                        Value = ci.Value
+                    }).ToList(),
+                    AddressInfoList = u.AddressInfoList.Select(ai => new AddressInfoDTO
+                    {
+                        AddressInfoId = ai.AddressInfoId,
+                        Type = ai.Type,
+                        Value = ai.Value,
+                        Latitude = ai.Latitude,
+                        Longitude = ai.Longitude
+                    }).ToList()
+                })
+                .ToListAsync();
+        }
+
+
         public async Task<bool> BanUserAsync(BanModel model)
         {
             var user = await appDbContext.User.FindAsync(model.UserId);

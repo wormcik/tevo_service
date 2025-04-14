@@ -40,5 +40,15 @@ namespace tevo_service.Controllers
             var result = await userService.BanUserAsync(model);
             return Ok(result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<bool>> Delete(Guid id)
+        {
+            var result = await userService.DeleteUserAsync(id);
+            if (!result)
+                return NotFound("Kullanıcı bulunamadı.");
+            return Ok(true);
+        }
+
     }
 }

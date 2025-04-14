@@ -70,5 +70,24 @@ namespace tevo_service.Services
             await appDbContext.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> DeleteUserAsync(Guid userId)
+        {
+            var user = await appDbContext.User
+                .Include(u => u.ContactInfoList)
+                .Include(u => u.AddressInfoList)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (user == null)
+                return false;
+
+            appDbContext.ContactInfo.RemoveRange(user.ContactInfoList);
+            appDbContext.AddressInfo.RemoveRange(user.AddressInfoList);
+            appDbContext.User.Remove(user);
+
+            await appDbContext.SaveChangesAsync();
+            return true;
+        }
+
     }
 }

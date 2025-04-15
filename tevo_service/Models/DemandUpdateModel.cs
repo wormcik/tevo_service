@@ -6,5 +6,6 @@
         public decimal? Price { get; set; }
         public decimal? Delivered { get; set; }
         public string? State { get; set; }
+        public string? PaymentMethod { get; set; }
     }
 }

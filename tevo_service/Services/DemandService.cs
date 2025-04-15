@@ -272,6 +272,9 @@ namespace tevo_service.Services
                 if (!string.IsNullOrWhiteSpace(model.State))
                     demand.State = model.State;
 
+                if (!string.IsNullOrWhiteSpace(model.PaymentMethod))
+                    demand.PaymentMethod = model.PaymentMethod;
+
                 await appDbContext.SaveChangesAsync();
 
                 var dto = new DemandDTO
@@ -281,7 +284,8 @@ namespace tevo_service.Services
                     Delivered = demand.Delivered,
                     Price = demand.Price,
                     Currency = demand.Currency,
-                    State = demand.State
+                    State = demand.State,
+                    PaymentMethod = demand.PaymentMethod 
                 };
 
                 return new ResultModel<DemandDTO>().Success(dto);

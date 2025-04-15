@@ -14,6 +14,7 @@ namespace tevo_service.Entities
 
         [Column(TypeName = "VARCHAR(20)")]
         public string? Currency { get; set; }
+        public string? PaymentMethod { get; set; }
         public bool? ManuelMi { get; set; }
         public DateTime? Date { get; set; }
 

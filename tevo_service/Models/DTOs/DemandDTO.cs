@@ -11,6 +11,7 @@ namespace tevo_service.Models.DTOs
         public decimal? Price { get; set; }
         public string? Currency { get; set; }
         public string? State { get; set; }
+        public string? PaymentMethod { get; set; }
         public string? DelivererUserName { get; set; }
         public string? RecipientUserName { get; set; }
         public long? ProductId { get; set; }

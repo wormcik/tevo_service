@@ -50,5 +50,12 @@ namespace tevo_service.Controllers
             return Ok(true);
         }
 
+        [HttpPut]
+        public async Task<ActionResult<ResultModel<UserDTO>>> UpdateUser(Guid userId, [FromBody] SignInModel model)
+        {
+            var result = await userService.UpdateUserAsync(userId, model);
+            return Ok(result);
+        }
+
     }
 }

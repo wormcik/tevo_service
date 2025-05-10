@@ -47,6 +47,11 @@ namespace tevo_service.Services
                 return new ResultModel<UserDTO>().Fail("Bu kullanıcı adı kullanılmaktadır");
             }
 
+            if (model.Password == null)
+            {
+                return new ResultModel<UserDTO>().Fail("Şifre Girilmelidir");
+            }
+
             var encryptedPassword = Encrypt(model.Password);
 
             var user = new User

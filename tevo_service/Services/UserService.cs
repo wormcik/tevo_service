@@ -89,5 +89,66 @@ namespace tevo_service.Services
             return true;
         }
 
+        public async Task<ResultModel<UserDTO>> UpdateUserAsync(Guid userId, SignInModel model)
+        {
+            var user = await appDbContext.User
+                .Include(u => u.ContactInfoList)
+                .Include(u => u.AddressInfoList)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (user == null)
+            {
+                return new ResultModel<UserDTO>().Fail("Kullanıcı bulunamadı");
+            }
+
+            user.UserName = model.UserName;
+            var existingContact = user.ContactInfoList.FirstOrDefault();
+            if (existingContact != null)
+            {
+                existingContact.Type = model.ContactInfoModel.Type;
+                existingContact.Value = model.ContactInfoModel.Value;
+            }
+            else
+            {
+                user.ContactInfoList.Add(new ContactInfo
+                {
+                    Type = model.ContactInfoModel.Type,
+                    Value = model.ContactInfoModel.Value
+                });
+            }
+
+            if (model.AddressInfoModel != null)
+            {
+                var existingAddress = user.AddressInfoList.FirstOrDefault();
+                if (existingAddress != null)
+                {
+                    existingAddress.Type = model.AddressInfoModel.Type;
+                    existingAddress.Value = model.AddressInfoModel.Value;
+                    existingAddress.Latitude = model.AddressInfoModel.Latitude;
+                    existingAddress.Longitude = model.AddressInfoModel.Longitude;
+                }
+                else
+                {
+                    user.AddressInfoList.Add(new AddressInfo
+                    {
+                        Type = model.AddressInfoModel.Type,
+                        Value = model.AddressInfoModel.Value,
+                        Latitude = model.AddressInfoModel.Latitude,
+                        Longitude = model.AddressInfoModel.Longitude
+                    });
+                }
+            }
+
+
+            await appDbContext.SaveChangesAsync();
+
+            return new ResultModel<UserDTO>().Success(new UserDTO
+            {
+                UserId = user.UserId,
+                UserName = user.UserName
+            });
+        }
+
+
     }
 }
